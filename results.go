@@ -210,6 +210,9 @@ func (r RenderJsonResult) Apply(req *Request, resp *Response) {
 
 	if r.callback == "" {
 		resp.WriteHeader(http.StatusOK, "application/json; charset=utf-8")
+		if Config.BoolDefault("escape.json", false) {
+			resp.Out.Write([]byte(")]}',\n"))
+		}
 		resp.Out.Write(b)
 		return
 	}

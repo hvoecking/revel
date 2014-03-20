@@ -14,12 +14,12 @@ const (
 
 	messageFilesDirectory = "messages"
 	messageFilePattern    = `^\w+.[a-zA-Z]{2}$`
-	unknownValueFormat    = "??? %s ???"
 	defaultLanguageOption = "i18n.default_language"
 	localeCookieConfigKey = "i18n.cookie"
 )
 
 var (
+	unknownValueFormat = "??? %s ???"
 	// All currently loaded message configs.
 	messages map[string]*config.Config
 )
@@ -137,6 +137,7 @@ func parseLocaleFromFileName(file string) string {
 
 func init() {
 	OnAppStart(func() {
+		unknownValueFormat = Config.StringDefault("i18n.unknown.value.format", unknownValueFormat)
 		loadMessages(filepath.Join(BasePath, messageFilesDirectory))
 	})
 }
